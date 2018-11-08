@@ -35,7 +35,8 @@
                     <ul class="navbar-nav mr-auto">
 
                         <li class="dropdown">
-                            <a class="nav-link dropdown-toggle"
+                            <a
+                             class="nav-link dropdown-toggle"
                              data-toggle="dropdown"
                              href="#"
                              role="button"
