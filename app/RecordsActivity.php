@@ -13,6 +13,10 @@ trait RecordsActivity
                 $model->recordActivity($event);
             });
         }
+
+        static::deleting(function ($model) {
+            $model->activity()->delete();
+        }); //this is basically saying: when deleting, also delete the activity
     }
 
     protected function recordActivity($event)
