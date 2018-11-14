@@ -7,6 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 trait Favorable
 {
+    protected static function bootFavorable()
+    {
+        static::deleting(function ($model) {
+            $model->favorites->each->delete();
+        });
+    }
 
     public function favorites()
     {
@@ -26,8 +32,8 @@ trait Favorable
     {
         $attributes = ['user_id' => auth()->id()];
 
-        $this->favorites()->where($attributes)->delete(); //get the favorites, only when itbelongs to the liker, and delete it
-
+        $this->favorites()->where($attributes)->get()->each->delete(); //we added this bc we need to delete the model, not only do an sqlquerry bc of the favorites
+    
     }
 
     public function isFavorited()
