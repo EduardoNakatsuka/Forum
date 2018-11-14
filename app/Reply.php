@@ -12,6 +12,7 @@ class Reply extends Model
 
     protected $with = ['owner', 'favorites'];
     
+    protected $appends = ['favoritesCount', 'isFavorited']; //is there anything we want to append the array representation of that? it passes to json!
     // protected $fillable = ['body', 'user_id'];
 
     public function owner()

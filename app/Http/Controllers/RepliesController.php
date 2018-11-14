@@ -42,7 +42,9 @@ class RepliesController extends Controller
     public function update(Reply $reply)
     {
         $this->authorize('update', $reply); //this will make the ppl who are authorized(authservice) update the reply
-
+        
+        $this->validate(request(), ['body' => 'required']);
+        
         $reply->update(request(['body'])); //update the reply's body for the new requested body
     }
 }

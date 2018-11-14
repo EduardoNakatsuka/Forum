@@ -63,16 +63,16 @@ class ParticipateInForumTest extends TestCase
         ->assertStatus(403); //we need to see a forbidden status of course
     }
     
-    /** @test */
-    function authorized_users_can_create_replies()
-    {
-        $this->signIn(); //given we are signed in
-        $reply = create('App\Reply', ['user_id' => auth()->id()]); //create a reply in which the user's id is the same of the auth user
+    // /** @test */
+    // function authorized_users_can_create_replies()
+    // {
+    //     $this->signIn(); //given we are signed in
+    //     $reply = create('App\Reply', ['user_id' => auth()->id()]); //create a reply in which the user's id is the same of the auth user
 
-        $this->delete("/replies/{$reply->id}")->assertStatus(302); //then when we submit the request to delete the reply and assert the original link has moved
+    //     $this->delete("/replies/{$reply->id}")->assertStatus(302); //then when we submit the request to delete the reply and assert the original link has moved
         
-        $this->assertDatabaseMissing('replies', ['id' => $reply->id]); //it should have been deleted and missing from DB
-    }
+    //     $this->assertDatabaseMissing('replies', ['id' => $reply->id]); //it should have been deleted and missing from DB
+    // }
 
     /** @test */
     function authorized_users_can_update_replies()
