@@ -47896,6 +47896,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.editing = false; //this will close the vue
 
             flash('Updated!'); //will flash a updated msg
+        },
+        destroy: function destroy() {
+            axios.delete('/replies/' + this.attributes.id);
+
+            $(this.$el).fadeOut(300, function () {
+                //this will make the reply fadeout in .30secs
+                flash('Your reply has been deleted.');
+            });
         }
     }
 });
