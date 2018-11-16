@@ -9,8 +9,6 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -26,6 +24,16 @@
         [v-cloak] { display: none; }
     </style>
 
+    <script>
+        // window.authCheck = {{ json_encode(Auth::check(),  JSON_FORCE_OBJECT) }}
+        window.App = {!! json_encode([
+            'user' => Auth::user(),
+            'signedIn' => Auth::check()
+        ]) !!};
+
+        // window.user = {{ json_encode(Auth::user(), JSON_FORCE_OBJECT) }};
+    </script>
+
 </head>
 <body>
     <div id="app">
@@ -38,5 +46,9 @@
 
         <flash message="{{ session('flash') }}"></flash>
     </div>
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}" defer>
+    </script>
+
 </body>
 </html>
