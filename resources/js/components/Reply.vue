@@ -28,7 +28,7 @@
             </div>
             
             <div v-else v-text="body"></div>
-            </div>
+        </div>
         
         <!-- @can('update', $reply) -->
             <div class="card-footer level" v-if="canUpdate">
@@ -72,7 +72,7 @@
             },
 
             canUpdate() {
-                return this.authorize(user => this.data.user_id == user.id);
+                return this.data.user_id == App.user.id;
                 // return this.data.user_id == window.App.user.id;
             }
         },
