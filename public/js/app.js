@@ -64488,6 +64488,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -64960,9 +64976,9 @@ var render = function() {
               attrs: { href: "/profiles/" + _vm.data.owner.name },
               domProps: { textContent: _vm._s(_vm.data.owner.name) }
             }),
-            _vm._v(" \n                    said \n                    "),
+            _vm._v(" \n                said \n                "),
             _c("span", { domProps: { textContent: _vm._s(_vm.ago) } }),
-            _vm._v("\n                    ...\n            ")
+            _vm._v("\n                ...\n            ")
           ]),
           _vm._v(" "),
           _vm.signedIn
@@ -65003,7 +65019,7 @@ var render = function() {
                   staticClass: "btn btn-sm btn-primary",
                   on: { click: _vm.update }
                 },
-                [_vm._v("Update")]
+                [_vm._v("\n            Update\n            ")]
               ),
               _vm._v(" "),
               _c(
@@ -65016,7 +65032,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("Cancel")]
+                [_vm._v("\n            Cancel\n            ")]
               )
             ])
           : _c("div", { domProps: { textContent: _vm._s(_vm.body) } })
@@ -65034,7 +65050,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("\n                Edit\n            ")]
+              [_vm._v("\n            Edit\n        ")]
             ),
             _vm._v(" "),
             _c(
@@ -65043,7 +65059,7 @@ var render = function() {
                 staticClass: "btn btn-sm btn-danger mr-2",
                 on: { click: _vm.destroy }
               },
-              [_vm._v("\n                Delete\n            ")]
+              [_vm._v("\n            Delete\n        ")]
             )
           ])
         : _vm._e()
@@ -65113,10 +65129,6 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
 //
 //
 //
@@ -65232,10 +65244,16 @@ var render = function() {
             attrs: { type: "submit" },
             on: { click: _vm.addReply }
           },
-          [_vm._v("\n                Post\n            ")]
+          [_vm._v("\n        Post\n    ")]
         )
       ])
-    : _vm._e()
+    : _c("p", { staticClass: "text-center" }, [
+        _vm._v("\n    Please \n        "),
+        _c("a", { attrs: { href: "/login" } }, [
+          _vm._v("\n            sign in\n        ")
+        ]),
+        _vm._v("\n    to participate in this discussion.\n")
+      ])
 }
 var staticRenderFns = []
 render._withStripped = true
