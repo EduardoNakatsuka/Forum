@@ -64373,6 +64373,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             //after we have a response we will add sth to the ITEMS data and save it
             this.dataSet = data;
             this.items = data.data;
+
+            window.scrollTo(0, 0);
         }
     }
 });

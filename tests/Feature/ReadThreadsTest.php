@@ -31,14 +31,14 @@ class ReadThreadsTest extends TestCase
             ->assertSee($this->thread->title);
     }
 
-    /** @test */
-    function a_user_can_read_replies_that_are_assicuated_with_a_thread()
-    {
-        $reply = factory('App\Reply')
-            ->create(['thread_id' => $this->thread->id]);
-        $this->get($this->thread->path())
-            ->assertSee($reply->body);
-    }
+    // /** @test */
+    // function a_user_can_read_replies_that_are_assicuated_with_a_thread()
+    // {
+    //     $reply = factory('App\Reply')
+    //         ->create(['thread_id' => $this->thread->id]);
+    //     $this->get($this->thread->path())
+    //         ->assertSee($reply->body);
+    // }
 
     /** @test */
     function a_user_can_filter_threads_according_to_a_channel()
@@ -81,6 +81,17 @@ class ReadThreadsTest extends TestCase
     }
 
     /** @test */
+    function a_user_can_filter_threads_by_those_that_are_unanswered()
+    {
+        $thread = create('App\Thread');
+        create('App\Reply', ['thread_id' => $thread->id]); //create a reply in the thread b4 created
+
+        $response = $this->getJson('threads?unanswered=1')->json();
+
+        $this->assertCount(1, $response);
+    }
+
+    /** @test */
     function a_user_can_request_all_replies_for_a_given_thread()
     {
         $thread = create('App\Thread');
@@ -88,7 +99,7 @@ class ReadThreadsTest extends TestCase
 
         $response = $this->getJson($thread->path() . '/replies')->json(); //when we request the json for the threadpath, we want to get the replies too!
 
-        $this->assertCount(1, $response['data']);
+        $this->assertCount(2, $response['data']);
         $this->assertEquals(2, $response['total']);
     }
 
