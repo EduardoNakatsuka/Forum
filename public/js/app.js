@@ -30374,7 +30374,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(138);
-module.exports = __webpack_require__(188);
+module.exports = __webpack_require__(194);
 
 
 /***/ }),
@@ -30398,7 +30398,7 @@ __webpack_require__(139);
 
 Vue.component('flash', __webpack_require__(164));
 Vue.component('thread-view', __webpack_require__(172));
-Vue.component('paginator', __webpack_require__(192));
+Vue.component('paginator', __webpack_require__(191));
 // Vue.component('reply', require('./components/Reply.vue'));
 
 var app = new Vue({
@@ -64245,13 +64245,16 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Replies_vue__ = __webpack_require__(174);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Replies_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Replies_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_SubscribeButton_vue__ = __webpack_require__(188);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_SubscribeButton_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_SubscribeButton_vue__);
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['initialRepliesCount'],
 
-    components: { Replies: __WEBPACK_IMPORTED_MODULE_0__components_Replies_vue___default.a },
+    components: { Replies: __WEBPACK_IMPORTED_MODULE_0__components_Replies_vue___default.a, SubscribeButton: __WEBPACK_IMPORTED_MODULE_1__components_SubscribeButton_vue___default.a },
 
     data: function data() {
         return {
@@ -65345,23 +65348,116 @@ if (false) {
 
 /***/ }),
 /* 188 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 189 */,
-/* 190 */,
-/* 191 */,
-/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(193)
+var __vue_script__ = __webpack_require__(189)
 /* template */
-var __vue_template__ = __webpack_require__(194)
+var __vue_template__ = __webpack_require__(190)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/SubscribeButton.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-f7ff20fe", Component.options)
+  } else {
+    hotAPI.reload("data-v-f7ff20fe", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 189 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['active'],
+
+    computed: {
+        classes: function classes() {
+            return ['btn', this.active ? 'btn-primary' : 'btn-default'];
+        }
+    },
+
+    methods: {
+        subscribe: function subscribe() {
+
+            axios[this.active ? 'delete' : 'post'](location.pathname + '/subscriptions');
+
+            this.active = !this.active;
+        }
+    }
+});
+
+/***/ }),
+/* 190 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("button", { class: _vm.classes, on: { click: _vm.subscribe } }, [
+    _vm._v("\n    Subscribe\n")
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-f7ff20fe", module.exports)
+  }
+}
+
+/***/ }),
+/* 191 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(192)
+/* template */
+var __vue_template__ = __webpack_require__(193)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -65400,7 +65496,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 193 */
+/* 192 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -65476,7 +65572,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 194 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -65574,6 +65670,12 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-59656db6", module.exports)
   }
 }
+
+/***/ }),
+/* 194 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);
