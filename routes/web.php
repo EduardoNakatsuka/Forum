@@ -32,3 +32,5 @@ Route::delete('/replies/{reply}/favorites', 'FavoritesController@destroy');
 Route::get('/profiles/{user}', 'ProfilesController@show')->name('profile');
 
 Route::patch('/replies/{reply}', 'RepliesController@update');
+
+Route::get('threads/{channel}/{thread}/replies', 'RepliesController@index'); //route for the vue, we need to create the index function inside repliescontroller
