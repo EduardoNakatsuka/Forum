@@ -15,16 +15,19 @@ class RepliesController extends Controller
         $this->middleware('auth', ['except' => 'index']);
     }
 
+    
+    
     public function index($channelId, Thread $thread)
     {
         return $thread->replies()->paginate(10);
     }
 
-    public function store($channelId, Thread $thread, Spam $spam)
+
+    
+    public function store($channelId, Thread $thread)
     {
-        $this->validate(request(), ['body' => 'required']);
-        $spam->detect(request('body'));
-        
+        $this->validateReply();
+
         $reply = $thread->addReply([
             'body' => request('body'),
             'user_id' => auth()->id()
@@ -37,6 +40,8 @@ class RepliesController extends Controller
         return back()->with('flash', 'Your reply has been left.');
     }
 
+
+    
     public function destroy(Reply $reply) //we have to accept the reply and demonstrate the $ of it
     {
         $this->authorize('update', $reply);
@@ -50,12 +55,22 @@ class RepliesController extends Controller
         return back();
     }
 
+
+    
     public function update(Reply $reply)
     {
         $this->authorize('update', $reply); //this will make the ppl who are authorized(authservice) update the reply
         
-        $this->validate(request(), ['body' => 'required']);
+        $this->validateReply();
         
         $reply->update(request(['body'])); //update the reply's body for the new requested body
     }
+
+
+    protected function validateReply()
+    {
+        $this->validate(request(), ['body' => 'required']);
+        resolve(Spam::class)->detect(request('body'));
+    }
+
 }
