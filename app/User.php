@@ -44,4 +44,17 @@ class User extends Authenticatable
         return $this->hasMany(Activity::class); //this way we show the user has many activities lol
     }
 
+    public function visitedThreadCacheKey($thread)
+    {
+        return sprintf("users.%s.visits.%s", $this->id, $thread->id);
+    }
+
+    public function read($thread)
+    {
+        //simulate that the user visited the thread
+        cache()->forever(
+            $this->visitedThreadCacheKey($thread), 
+            \Carbon\Carbon::now()
+        );
+    }
 }
