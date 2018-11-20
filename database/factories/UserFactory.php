@@ -45,6 +45,18 @@ $factory->define(App\Channel::class, function ($faker) {
     ];
 }); 
 
+$factory->define(App\Reply::class, function ($faker) {
+    return [
+        'thread_id' => function () {
+            return factory('App\Thread')->create()->id;
+        },
+        'user_id' => function () {
+            return factory('App\User')->create()->id;
+        },
+        'body'  => $faker->paragraph
+    ];
+});
+
 $factory->define(\Illuminate\Notifications\DatabaseNotification::class, function ($faker) {
     return [
 
@@ -55,6 +67,8 @@ $factory->define(\Illuminate\Notifications\DatabaseNotification::class, function
         },
         'notifiable_type' => 'App\User',
         'data' => ['foo' => 'bar']
+
+
 
         // 'thread_id' => function () {
         //     return factory('App\Thread')->create()->id;
