@@ -113,6 +113,9 @@
                         @endif
                     </li>
                 @else
+
+                    <user-notifications></user-notifications>
+
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown"
                             class="nav-link dropdown-toggle"
@@ -134,25 +137,26 @@
                         >
                             <li class="nav-item">
                                 <a class="nav-link"
-                                    href="{{ route('logout') }}"
-                                    onclick="event.preventDefault();
-                                        document.getElementById('logout-form').submit();">
+                                 href="{{ route('logout') }}"
+                                 onclick="event.preventDefault();
+                                 document.getElementById('logout-form').submit();"
+                                >
                                     {{ __('Logout') }}
                                 </a>
                             </li>
                             
                             <li class="nav-item">
                                 <a class="nav-link"
-                                    href="{{ route('profile', Auth::user()) }} "
+                                 href="{{ route('profile', Auth::user()) }} "
                                 >
                                     My Profile
                                 </a>
                             </li>
 
                             <form id="logout-form"
-                                action="{{ route('logout') }}"
-                                method="POST"
-                                style="display: none;"
+                             action="{{ route('logout') }}"
+                             method="POST"
+                             style="display: none;"
                             >
                                 @csrf
                             </form>
