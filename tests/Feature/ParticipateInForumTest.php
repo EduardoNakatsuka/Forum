@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
+
 class ParticipateInForumTest extends TestCase
 {
     use RefreshDatabase;
@@ -97,7 +98,7 @@ class ParticipateInForumTest extends TestCase
         $this->assertDatabaseHas('replies', ['id' => $reply->id, 'body' => 'You been changed, fool.']);
     }
 
-        /** @test */
+    /** @test */
     function unauthorized_users_cannot_update_replies()
     {
         $this->withExceptionHandling(); //show us the exceptions thrown in the test
@@ -112,4 +113,18 @@ class ParticipateInForumTest extends TestCase
         ->assertStatus(403); //we need to see a forbidden status of course
     }
 
+    /** @test */
+    function replies_that_cotain_spam_may_not_be_created()
+    {
+        $this->signIn();
+
+        $thread = create('App\Thread');
+        $reply = make('App\Reply', [
+            'body' => 'Yahoo Customer Support'
+        ]);
+
+        $this->expectException(\Exception::class);
+        
+        $this->post($thread->path() . '/replies', $reply->toArray());
+    }
 }
