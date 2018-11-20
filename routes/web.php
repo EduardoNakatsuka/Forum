@@ -33,7 +33,9 @@ Route::get('threads/{channel}', 'ThreadsController@index');
 Route::post('/replies/{reply}/favorites', 'FavoritesController@store');
 Route::delete('/replies/{reply}/favorites', 'FavoritesController@destroy');
 Route::get('/profiles/{user}', 'ProfilesController@show')->name('profile');
-
+Route::get('threads/{channel}/{thread}/replies', 'RepliesController@index'); //route for the vue, we need to create the index function inside repliescontroller
 Route::patch('/replies/{reply}', 'RepliesController@update');
 
-Route::get('threads/{channel}/{thread}/replies', 'RepliesController@index'); //route for the vue, we need to create the index function inside repliescontroller
+
+Route::delete('/profiles/{user}/notifications/{notification}', 'UserNotificationsController@destroy'); //this is the endpoint for the sub.notifications
+Route::get('/profiles/{user}/notifications', 'UserNotificationsController@index');
