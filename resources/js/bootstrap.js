@@ -73,6 +73,6 @@ window.Vue = require('vue');
 
 window.events = new Vue(); //this will make it fire the events!
 
-window.flash = function (message) { //we call the flash function, then we give it a message then we go to flash.vue
-    window.events.$emit('flash', message);
+window.flash = function (message, level = 'success') { //we call the flash function, then we give it a message then we go to flash.vue
+    window.events.$emit('flash', { message, level });
 };

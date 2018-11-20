@@ -1,6 +1,10 @@
 <template>
-    <div class="alert alert-success alert-flash" role="alert" v-show="show">
-        <strong>Success!</strong> {{ body }}
+    <div class="alert alert-flash"
+     :class="'alert-'+level"
+     role="alert"
+     v-show="show"
+     v-text="body"
+    >
     </div>
 </template>
 
@@ -11,6 +15,7 @@
         data() {
             return {
                 body: '',
+                level: 'success',
                 show: false
             }
         },
@@ -20,14 +25,15 @@
                 this.flash(this.message); //if we have a message, then flash it!
             }
 
-            window.events.$on('flash', message => { //we are listening to the event of if anywhere in our program we have a flash request, we fire the message associtated with it
-                this.flash(message);
-            });
+            window.events.$on(
+                'flash', data => this.flash(data) //we are listening to the event of if anywhere in our program we have a flash request, we fire the message associtated with it
+            );
         },
 
         methods: {
-            flash(message) { //flash(show)the message and set its body and visibility
-                this.body = message;
+            flash(data) { //flash(show)the message and set its body and visibility
+                this.body = data.message;
+                this.level = data.level;
                 this.show = true;
 
                 this.hide(); //after we flash it we need to hide it lol
