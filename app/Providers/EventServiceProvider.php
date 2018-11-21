@@ -14,9 +14,15 @@ class EventServiceProvider extends ServiceProvider
      *
      * @var array
      */
+    // protected $listen = [
+    //     Registered::class => [
+    //         SendEmailVerificationNotification::class,
+    //     ],
+    // ];    
     protected $listen = [
-        Registered::class => [
-            SendEmailVerificationNotification::class,
+        'App\Events\ThreadReceivedNewReply' => [ //when thread receives a new reply
+            'App\Listeners\NotifyMentionedUsers', //then fire the notify mentionedusers 
+            'App\Listeners\NotifySubscribers' //notifies the subscribers lol
         ],
     ];    
 
