@@ -34,6 +34,7 @@
         // window.user = {{ json_encode(Auth::user(), JSON_FORCE_OBJECT) }};
     </script>
 
+    @yield('header')
 </head>
 <body>
     <div id="app">

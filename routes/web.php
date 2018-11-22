@@ -39,3 +39,5 @@ Route::patch('/replies/{reply}', 'RepliesController@update');
 
 Route::delete('/profiles/{user}/notifications/{notification}', 'UserNotificationsController@destroy'); //this is the endpoint for the sub.notifications
 Route::get('/profiles/{user}/notifications', 'UserNotificationsController@index');
+
+Route::get('api/users', 'Api\UsersController@index');
