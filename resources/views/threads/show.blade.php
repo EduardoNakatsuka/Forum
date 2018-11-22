@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('header')
-<link rel="stylesheet" href="public/css/jquery.atwho.css">
+    <link rel="stylesheet" href="/css/jquery.atwho.css">
 @endsection
 
 @section('content')
