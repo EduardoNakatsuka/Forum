@@ -53,22 +53,15 @@ class RepliesController extends Controller
     {
         $this->authorize('update', $reply); //this will make the ppl who are authorized(authservice) update the reply
 
-        try {
-            $this->validateReply();
-
-            $reply->update(request(['body'])); //update the reply's body for the new requested body
-        } catch (\Exception $e) {
-            return response(
-                'Sorry, your reply could not be saved at this time.',
-                422
-            );
-        }
-    }
-
-
-    protected function validateReply()
-    {
         $this->validate(request(), ['body' => 'required|spamFree']);
+
+        $reply->update(request(['body'])); //update the reply's body for the new requested body
     }
+
+
+    // protected function validateReply()
+    // {
+    //     $this->validate(request(), ['body' => 'required|spamFree']);
+    // }
 
 }

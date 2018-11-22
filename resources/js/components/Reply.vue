@@ -20,28 +20,30 @@
 
         <div class="card-body">
             <div v-if="editing">
-                <div class="form-group">
-                    <textarea
-                     class="form-control"
-                     v-model="body"
+                <form @submit="update">
+                    <div class="form-group">
+                        <textarea
+                        class="form-control"
+                        v-model="body"
+                        required
+                        >
+                        </textarea>
+                    </div>
+
+                    <button
+                    class="btn btn-sm btn-primary"
                     >
-                    </textarea>
-                    
-                </div>
+                    Update
+                    </button>
 
-                <button
-                 class="btn btn-sm btn-primary"
-                 @click="update"
-                >
-                Update
-                </button>
-
-                <button
-                 class="btn btn-sm btn-link"
-                 @click="editing = false"
-                >
-                Cancel
-                </button>
+                    <button
+                    class="btn btn-sm btn-link"
+                    @click="editing = false"
+                    type="button"
+                    >
+                    Cancel
+                    </button>
+                </form>
             </div>
             
             <div v-else v-text="body"></div>
@@ -93,8 +95,8 @@
             },
 
             canUpdate() {
-                return this.data.user_id == App.user.id;
-                // return this.data.user_id == window.App.user.id;
+                // return this.data.user_id == App.user.id;
+                return this.data.user_id == _.get(window, 'App.user.id', -1);
             }
         },
 

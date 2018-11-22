@@ -1,5 +1,5 @@
 <template>
-    <li class="dropdown">
+    <li class="dropdown" v-if="notifications.length">
         <a
          class="nav-link dropdown-toggle"
          data-toggle="dropdown"
