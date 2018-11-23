@@ -12,6 +12,13 @@
                     <div class="card mb-3">
                         <div class="card-header">
                             <div class="level">
+                                <img
+                                 src="{{ $thread->creator->avatar_path }}"
+                                 alt="{{ $thread->creator->name }}"
+                                 width="25"
+                                 height="25"
+                                 class="mr-1"
+                                >
                                 <span class="flex">
                                     <a href="/profiles/{{ $thread->creator->name }}">
                                         {{ $thread->creator->name }}
@@ -21,11 +28,17 @@
 
                                 <div>
                                     @can ('update', $thread)
-                                        <form action="{{ $thread->path() }}" method="POST">
+                                        <form action="{{ $thread->path() }}"
+                                         method="POST"
+                                        >
                                             @csrf
                                             {{ method_field('DELETE') }}
                                             
-                                            <button type="submit" class="btn btn-link">Delete Thread!</button>
+                                            <button
+                                             type="submit"
+                                             class="btn btn-link"
+                                            >Delete Thread!
+                                            </button>
                                         </form>
                                     @endif
                                 </div>

@@ -62,4 +62,11 @@ class User extends Authenticatable
     {
         return $this->hasOne(Reply::class)->latest();
     }
+
+    public function getAvatarPathAttribute($avatar)
+    {
+        // return $this->avatar_path ? 'storage/' . $this->avatar_path : 'images/avatars/default.jpg';
+        return asset($avatar ? 'storage/' . $avatar : 'images/avatars/default.jpg');
+        // return asset($avatar ?: 'images/avatars/default.jpg');
+    }
 }

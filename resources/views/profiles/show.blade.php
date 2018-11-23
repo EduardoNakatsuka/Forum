@@ -7,14 +7,11 @@
             <div class="col-md-8">
 
                 <div class="page-header">
-                    <h1>
-                        {{ $profileUser->name }}
-                        <small>
-                            Member since 
-                            {{ $profileUser->created_at->diffForHumans() }}
-                        </small>
-                    </h1>
+                    <avatar-form :user="{{ $profileUser }}"></avatar-form>            
                 </div>
+
+                <hr>
+
                 @foreach ($activities as $date => $activity)
                     <h3 class="card">{{ $date }}</h3>
 
@@ -23,7 +20,7 @@
                             @include("profiles.activities.{$record->type}", ['activity' => $record])
                         @endif
                     @endforeach
-                @endforeach               
+                @endforeach
             </div>
         </div>
     </div>
