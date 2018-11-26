@@ -31,7 +31,9 @@ class ThreadsController extends Controller
             return $threads;
         }
 
-        return view('threads.index', compact('threads'));
+        $trending = array_map('json_decode', Redis::zrevrange('trending_threads', 0, 4));
+        
+        return view('threads.index', compact('threads', 'trending'));
     }
 
     /**
@@ -83,17 +85,14 @@ class ThreadsController extends Controller
             auth()->user()->read($thread);
         }
 
-        // Redis::zincrby('trending_threads', 1, json_encode([
-        //     'title' => $thread->title,
-        //     'path' => $thread->path()
-        // ]));
+        Redis::zincrby('trending_threads', 1, json_encode([
+            'title' => $thread->title,
+            'path' => $thread->path()
+        ]));
 
-        $trending = collect(Redis::zrevrange('trending_threads', 0, -1))
-            ->map(function ($thread) {
-                return json_decode($thread);
-        });
 
-        return view('threads.show', compact('threads', 'trending'));
+
+        return view('threads.show', compact('thread'));
     }
 
     /**

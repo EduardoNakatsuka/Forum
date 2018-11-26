@@ -12,13 +12,19 @@
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-header">
-                        Threads Transantes
+                        Trending Threads
                     </div>
 
                     <div class="card-body">
-                        @foreach ($trending as $thread)
-                            <li>{{ $thread->title }}</li>
-                        @endforeach
+                        <ul class="list-group">
+                            @foreach ($trending as $thread)
+                                <li class="list-group-item">
+                                    <a href="{{ url($thread->path) }}">
+                                        {{ $thread->title }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
             </div>
