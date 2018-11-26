@@ -1,4 +1,4 @@
-`<?php
+<?php
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +39,8 @@ Route::patch('/replies/{reply}', 'RepliesController@update');
 
 Route::delete('/profiles/{user}/notifications/{notification}', 'UserNotificationsController@destroy'); //this is the endpoint for the sub.notifications
 Route::get('/profiles/{user}/notifications', 'UserNotificationsController@index');
+
+Route::get('/register/confirm', 'Api\RegisterConfirmationController@index');
 
 Route::get('api/users', 'Api\UsersController@index');
 Route::post('api/users/{user}/avatar', 'Api\UserAvatarController@store')->middleware('auth')->name('avatar');

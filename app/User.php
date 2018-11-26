@@ -29,6 +29,10 @@ class User extends Authenticatable
 
     ];
 
+    protected $casts = [
+        'confirmed' => 'boolean' //will always treat confirmed in db as boolean
+    ];
+
     public function getRouteKeyName()
     {
         return 'name';
@@ -42,6 +46,12 @@ class User extends Authenticatable
     public function activity()
     {
         return $this->hasMany(Activity::class); //this way we show the user has many activities lol
+    }
+
+    public function confirm()
+    {
+        $this->confirmed = true;
+        $this->save();
     }
 
     public function visitedThreadCacheKey($thread)
