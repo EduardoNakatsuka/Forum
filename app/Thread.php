@@ -5,11 +5,12 @@ namespace App;
 use App\Events\ThreadHasNewReply;
 use Illuminate\Database\Eloquent\Model;
 use App\Notifications\ThreadWasUpdated;
+use Illuminate\Support\Facades\Redis;
 use App\Events\ThreadReceivedNewReply;
 
 class Thread extends Model
 {
-    use Favorable, RecordsActivity;
+    use Favorable, RecordsActivity, RecordsVisits;
     protected $guarded = [];
 
     protected $with = ['creator', 'channel'];
