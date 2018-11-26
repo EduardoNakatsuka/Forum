@@ -18,7 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
-Route::get('threads', 'ThreadsController@index');
+Route::get('threads', 'ThreadsController@index')->name('threads');
 Route::get('threads/create', 'ThreadsController@create');
 Route::get('threads/{channel}/{thread}', 'ThreadsController@show'); //this one is to show the thread
 Route::delete('threads/{channel}/{thread}', 'ThreadsController@destroy'); //this one is to delete the thread
@@ -40,7 +40,7 @@ Route::patch('/replies/{reply}', 'RepliesController@update');
 Route::delete('/profiles/{user}/notifications/{notification}', 'UserNotificationsController@destroy'); //this is the endpoint for the sub.notifications
 Route::get('/profiles/{user}/notifications', 'UserNotificationsController@index');
 
-Route::get('/register/confirm', 'Api\RegisterConfirmationController@index');
+Route::get('/register/confirm', 'Api\RegisterConfirmationController@index')->name('register.confirm');
 
 Route::get('api/users', 'Api\UsersController@index');
 Route::post('api/users/{user}/avatar', 'Api\UserAvatarController@store')->middleware('auth')->name('avatar');

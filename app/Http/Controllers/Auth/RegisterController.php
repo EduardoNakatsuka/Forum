@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Mail\PleaseConfirmYourEmail;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -69,5 +72,11 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
             'confirmation_token' => str_random(25)
         ]);
+    }
+
+    protected function registered(Request $request, $user)
+    {
+        Mail::to($user)->send(new PleaseConfirmYourEmail($user)); //fire off a mail to that user and specifially the please confirm your email addres one.
+        return redirect($this->redirectPath());
     }
 }
