@@ -10,7 +10,7 @@ use App\Events\ThreadReceivedNewReply;
 
 class Thread extends Model
 {
-    use Favorable, RecordsActivity, RecordsVisits;
+    use Favorable, RecordsActivity;
     protected $guarded = [];
 
     protected $with = ['creator', 'channel'];
