@@ -14,7 +14,7 @@
 
         data() {
             return {
-                body: '',
+                body: this.message,
                 level: 'success',
                 show: false
             }
@@ -22,7 +22,7 @@
 
         created () {
             if (this.message) {
-                this.flash(this.message); //if we have a message, then flash it!
+                this.flash(); //if we have a message, then flash it!
             }
 
             window.events.$on(
@@ -32,8 +32,11 @@
 
         methods: {
             flash(data) { //flash(show)the message and set its body and visibility
-                this.body = data.message;
-                this.level = data.level;
+                if(data) {
+                    this.body = data.message;
+                    this.level = data.level;
+                }
+                
                 this.show = true;
 
                 this.hide(); //after we flash it we need to hide it lol
