@@ -61,4 +61,9 @@ class Reply extends Model
     {
         $this->attributes['body'] = preg_replace('/@([\w\-]+)/', '<a href="/profiles/$1">$0</a>', $body); // @([^\s]+) = starts with @ untill there is a space and ^NOTT^ space and exclude the @ (simbol) \. removes periods @[\w\-]+ gets every words and every dashes too
     }    
+
+    public function isBest()
+    {
+        return $this->thread->best_reply_id == $this->id; //get the best reply's id associated wwith the thread and make sure is is the same of this replyid
+    }
 }
