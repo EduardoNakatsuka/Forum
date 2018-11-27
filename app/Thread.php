@@ -29,6 +29,10 @@ class Thread extends Model
             $thread->replies->each->delete();
         });
 
+        static::created(function ($thread) { //when a thread is created
+            $thread->update(['slug' => $thread->title]); //we will update and generate its slug
+        });
+
     }
     
     
@@ -110,23 +114,13 @@ class Thread extends Model
 
     public function setSlugAttribute($value)
     {
-        if (static::whereSlug($slug = str_slug($value))->exists()) { //string slug it, and see if it exists in the db, if it does, we need to use the increment slug function, if not just save it like that.
-            $slug = $this->incrementSlug($slug);
+        $slug = str_slug($value); //we create a slug for it
+
+        if (static::whereSlug($slug)->exists()) { //if the slug already exists
+            $slug = "{$slug}-" . $this->id; //we change the slug to append the records id
         }
-    
+
         $this->attributes['slug'] = $slug;
-    }
-
-    public function incrementSlug($slug)
-    {
-        $max = static::whereTitle($this->title)->latest('id')->value('slug'); //find me all threads with this title and find the most recent one and grab its slug
-
-        if(is_numeric($max[-1])) { //get the last character on a string and let me know if it is numeric if so, we need to increment it
-            return preg_replace_callback('/(\d+)$/', function($matches) {
-                return $matches[1] +1; //replace that number with 1 more of that
-            }, $max);
-        }
-        return "{$slug}-2"; //otherwise it is the first creation of that slug, so the next is the next 2
     }
 
 }
