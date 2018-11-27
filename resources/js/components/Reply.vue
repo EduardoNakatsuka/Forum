@@ -92,7 +92,7 @@
                 editing: false,
                 id: this.data.id,
                 body: this.data.body,
-                isBest: false,
+                isBest: this.data.isBest,
                 reply: this.data
             };
         },
@@ -110,6 +110,12 @@
             //     // return this.data.user_id == App.user.id;
             //     return this.data.user_id == _.get(window, 'App.user.id', -1);
             // }
+        },
+
+        created() {
+            window.events.$on('best-reply-selected', id => {
+                this.isBest = (id === this.id);
+            });
         },
 
         methods: {
@@ -138,7 +144,9 @@
             },
 
             markBestReply() {
-                this.isBest = true;
+                axios.post('/replies/' + this.data.id + '/best')
+
+                window.events.$emit('best-reply-selected', this.data.id);
             }
         }
     }

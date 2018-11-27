@@ -13,7 +13,7 @@ class Reply extends Model
 
     protected $with = ['owner', 'favorites'];
     
-    protected $appends = ['favoritesCount', 'isFavorited']; //is there anything we want to append the array representation of that? it passes to json!
+    protected $appends = ['favoritesCount', 'isFavorited', 'isBest']; //is there anything we want to append the array representation of that? it passes to json!
     // protected $fillable = ['body', 'user_id'];
 
     protected static function boot()
@@ -65,5 +65,10 @@ class Reply extends Model
     public function isBest()
     {
         return $this->thread->best_reply_id == $this->id; //get the best reply's id associated wwith the thread and make sure is is the same of this replyid
+    }
+
+    public function getIsBestAttribute()
+    {
+        return $this->isBest();
     }
 }
