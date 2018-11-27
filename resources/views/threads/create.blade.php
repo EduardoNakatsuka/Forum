@@ -1,37 +1,81 @@
 @extends('layouts.app')
 
+@section('header')
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Create a New Thread</div>
+                <div class="card-header">
+                    Create a New Thread
+                </div>
 
                     <div class="card-body">
                         <form method="POST" action="/threads">
                             @csrf
 
                             <div class="form-group">
-                                <label for="channel_id">Choose a Channel:</label>
-                                <select name="channel_id" id="channel_id" class="form-control" required>
+                                <label for="channel_id">
+                                    Choose a Channel:
+                                </label>
+                                
+                                <select
+                                 name="channel_id" 
+                                 id="channel_id" 
+                                 class="form-control" 
+                                 required
+                                >
                                     @foreach ($channels as $channel)
-                                        <option value="{{ $channel->id }}" {{ old('channel_id') == $channel->id ? 'selected' : '' }}>{{ $channel->name }}</option>
+                                        <option
+                                         value="{{ $channel->id }}"
+                                         {{ old('channel_id') == $channel->id ? 'selected' : '' }}
+                                        >
+                                            {{ $channel->name }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
                             
                             <div class="form-group">
                                 <label for="title">Title:</label>
-                            <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}" required>
+                            <input
+                             type="text" 
+                             class="form-control" 
+                             id="title" 
+                             name="title" 
+                             value="{{ old('title') }}" 
+                             required
+                            >
                             </div>
 
                             <div class="form-group">
                                 <label for="body">Body:</label>
-                                <textarea name="body" id="body" class="form-control" rows="8" required>{{ old('body') }}</textarea>
+                                <textarea
+                                 name="body" 
+                                 id="body" 
+                                 class="form-control" 
+                                 rows="8" 
+                                 required
+                                >
+                                    {{ old('body') }}
+                                </textarea>
                             </div>
 
+                            <div
+                             class="g-recaptcha"
+                             data-sitekey="6LfWeX0UAAAAAOIxPjdsWkduReVvZS0MUmAjwFMj">
+                            </div>
+                            
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary">Publish</button>
+                                <button 
+                                 type="submit"
+                                 class="btn btn-primary"
+                                >
+                                    Publish
+                                </button>
                             </div>
 
                             @if (count($errors))
