@@ -34,7 +34,7 @@ class Thread extends Model
     
     public function path()
     {
-        return "/threads/{$this->channel->slug}/{$this->id}";
+        return "/threads/{$this->channel->slug}/{$this->slug}";
     }
     
     public function replies()
@@ -101,6 +101,32 @@ class Thread extends Model
         $key = auth()->user()->visitedThreadCacheKey($this);
         
         return $this->updated_at > cache($key);
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+    public function setSlugAttribute($value)
+    {
+        if (static::whereSlug($slug = str_slug($value))->exists()) { //string slug it, and see if it exists in the db, if it does, we need to use the increment slug function, if not just save it like that.
+            $slug = $this->incrementSlug($slug);
+        }
+    
+        $this->attributes['slug'] = $slug;
+    }
+
+    public function incrementSlug($slug)
+    {
+        $max = static::whereTitle($this->title)->latest('id')->value('slug'); //find me all threads with this title and find the most recent one and grab its slug
+
+        if(is_numeric($max[-1])) { //get the last character on a string and let me know if it is numeric if so, we need to increment it
+            return preg_replace_callback('/(\d+)$/', function($matches) {
+                return $matches[1] +1; //replace that number with 1 more of that
+            }, $max);
+        }
+        return "{$slug}-2"; //otherwise it is the first creation of that slug, so the next is the next 2
     }
 
 }
