@@ -50,7 +50,7 @@
         </div>
         
         <div class="card-footer level">
-            <div v-if="canUpdate">
+            <div v-if="authorize('updateReply', reply)">
                 <button
                 class="btn btn-sm mr-2"
                 @click="editing = true"
@@ -92,7 +92,8 @@
                 editing: false,
                 id: this.data.id,
                 body: this.data.body,
-                isBest: false
+                isBest: false,
+                reply: this.data
             };
         },
 
@@ -101,14 +102,14 @@
                 return moment(this.data.created_at + 'Z').fromNow();
             },
 
-            signedIn() {
-                return window.App.signedIn;
-            },
+            // signedIn() {
+            //     return window.App.signedIn;
+            // },
 
-            canUpdate() {
-                // return this.data.user_id == App.user.id;
-                return this.data.user_id == _.get(window, 'App.user.id', -1);
-            }
+            // canUpdate() {
+            //     // return this.data.user_id == App.user.id;
+            //     return this.data.user_id == _.get(window, 'App.user.id', -1);
+            // }
         },
 
         methods: {

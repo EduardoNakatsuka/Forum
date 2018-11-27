@@ -48,10 +48,18 @@ if (token) {
 
 window.Vue = require('vue');
 
-Vue.prototype.authorize = function (handler) { //simple things to share across all vue instances function that accepts the handler
-    let user = window.App.user; //
-    return user ? handler(user) : false; //if we have a user, trigger it, otherwise, set it false.
+let authorizations = require('./authorizations');
+
+Vue.prototype.authorize = function (...params) { //simple things to share across all vue instances function that accepts the handler
+    if (! window.App.signedIn) return false; //
+    if (typeof params[0] === 'string') {
+        return authorizations[params[0]](params[1]);
+    }
+
+    return params[0](window.App.user);
 };
+
+Vue.prototype.signedIn = window.App.signedIn;
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
