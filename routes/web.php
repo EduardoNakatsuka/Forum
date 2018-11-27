@@ -24,7 +24,7 @@ Route::get('threads/{channel}/{thread}', 'ThreadsController@show'); //this one i
 Route::delete('threads/{channel}/{thread}', 'ThreadsController@destroy'); //this one is to delete the thread
 Route::post('threads', 'ThreadsController@store')->middleware('must-be-confirmed');
 Route::post('threads/{channel}/{thread}/replies', 'RepliesController@store');
-Route::delete('/replies/{reply}', 'RepliesController@destroy'); //delete the reply
+Route::delete('/replies/{reply}', 'RepliesController@destroy')->name('replies.destroy'); //delete the reply
 
 Route::post('/threads/{channel}/{thread}/subscriptions', 'ThreadSubscriptionsController@store')->middleware('auth');
 Route::delete('/threads/{channel}/{thread}/subscriptions', 'ThreadSubscriptionsController@destroy')->middleware('auth');
