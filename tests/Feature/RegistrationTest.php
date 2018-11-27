@@ -39,17 +39,18 @@ class RegistrationTest extends TestCase
             'password' => 'foobar',
             'password_confirmation' => 'foobar'
         ]);
+
         $user = User::whereName('John')->first();
 
         $this->assertFalse($user->confirmed);
         $this->assertNotNull($user->confirmation_token);
-
+        
         $response = $this->get(route(
             'register.confirm', ['token' => $user->confirmation_token]))
             ->assertRedirect(route('threads'));
-
+    
         $this->assertTrue($user->fresh()->confirmed);
-
+        $this->assertNull($user->fresh()->confirmation_token);
     }
 
     /** @test */
@@ -59,7 +60,5 @@ class RegistrationTest extends TestCase
             'register.confirm', ['token' => 'invalid']))
             ->assertRedirect(route('threads'))
             ->assertSessionHas('flash', 'Unknown token.');
-        
-
     }
 }
