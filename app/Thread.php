@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use App\Notifications\ThreadWasUpdated;
 use Illuminate\Support\Facades\Redis;
 use App\Events\ThreadReceivedNewReply;
+use Laravel\Scout\Searchable;
 
 class Thread extends Model
 {
-    use Favorable, RecordsActivity;
+    use Favorable, RecordsActivity, Searchable;
+    
     protected $guarded = [];
 
     protected $with = ['creator', 'channel'];
