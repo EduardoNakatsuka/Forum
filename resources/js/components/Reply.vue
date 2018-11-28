@@ -20,28 +20,30 @@
 
         <div class="card-body">
             <div v-if="editing">
-                <form @submit="update">
+                <form>
                     <div class="form-group">
                         <textarea
-                        class="form-control"
-                        v-model="body"
-                        required
+                         class="form-control"
+                         v-model="body"
+                         required
                         >
                         </textarea>
                     </div>
 
                     <button
-                    class="btn btn-sm btn-primary"
+                     class="btn btn-sm btn-primary"
+                     @click="update"
+                     type="button"
                     >
-                    Update
+                        Update
                     </button>
 
                     <button
-                    class="btn btn-sm btn-link"
-                    @click="editing = false"
-                    type="button"
+                     class="btn btn-sm btn-link"
+                     @click="editing = false"
+                     type="button"
                     >
-                    Cancel
+                        Cancel
                     </button>
                 </form>
             </div>
@@ -129,7 +131,7 @@
                 })
                 .catch(error => {
                     flash(error.response.data, 'danger');
-                });                ;
+                });
                 
                 this.editing = false; //this will close the vue
 
