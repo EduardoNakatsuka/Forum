@@ -40,7 +40,7 @@
 
                     <button
                      class="btn btn-sm btn-link"
-                     @click="editing = false"
+                     @click="cancel"
                      type="button"
                     >
                         Cancel
@@ -146,6 +146,11 @@
                 // $(this.$el).fadeOut(300, () => { //this will make the reply fadeout in .30secs
                 //     flash('Your reply has been deleted.');
                 // });
+            },
+
+            cancel() {
+                this.body = this.reply.body;
+                this.editing = false;
             },
 
             markBestReply() {

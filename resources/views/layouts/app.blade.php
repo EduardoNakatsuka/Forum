@@ -23,6 +23,7 @@
         .flex { flex: 1; }
         .ml-a { margin-left: auto; }
         [v-cloak] { display: none; }
+        .ais-highlight > em { background: yellow; font-style: normal; }
     </style>
 
     <script>
