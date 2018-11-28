@@ -7,10 +7,22 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Thread;
+use App\Rules\Recaptcha;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
 class CreateThreadsTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, MockeryPHPUnitIntegration;
+
+    public function setUp()
+    {
+        parent::setUp();
+        app()->singleton(Recaptcha::class, function () {
+            return \Mockery::mock(Recaptcha::class, function ($m) {
+                $m->shouldReceive('passes')->andReturn(true);
+            });
+        });
+    }
 
     /** @test */
     function guests_may_not_create_threads()
@@ -40,17 +52,20 @@ class CreateThreadsTest extends TestCase
     
     /** @test */
     function a_user_can_create_new_forum_threads()
-    {
-        $this->signIn();
-
-        $thread = make('App\Thread');
-        
-        $response = $this->post(route('threads'), $thread->toArray());
-
+    {        
+        $response = $this->publishThread(['title' => 'Some Title', 'body' => 'Some body.']);
 
         $this->get($response->headers->get('Location'))
-            ->assertSee($thread->title)
-            ->assertSee($thread->body);
+            ->assertSee('Some Title')
+            ->assertSee('Some body.');
+    }
+
+        /** @test */
+    function a_thread_requires_recaptcha_verification()
+    {
+        unset(app()[Recaptcha::class]);
+        $this->publishThread(['g-recaptcha-response' => 'test'])
+            ->assertSessionHasErrors('g-recaptcha-response');
     }
 
     /** @test */
@@ -69,8 +84,10 @@ class CreateThreadsTest extends TestCase
 
         $this->assertEquals($thread->fresh()->slug, 'foo-title');
 
-        $thread = $this->postJson(route('threads'), $thread->toArray())->json();
-        
+        $thread = $this->postJson(route('threads'), $thread->toArray() + [
+            'g-recaptcha-response' => 'token'
+        ])->json();         
+
         $this->assertEquals("foo-title-{$thread['id']}", $thread['slug']);
     }
 
@@ -81,8 +98,11 @@ class CreateThreadsTest extends TestCase
 
         $thread = create('App\Thread', ['title' => 'Some Title 24']);
 
-        $thread = $this->postJson(route('threads'), $thread->toArray())->json();
-        
+
+        $thread = $this->postJson(route('threads'), $thread->toArray() + [
+            'g-recaptcha-response' => 'token'
+        ])->json();
+
         $this->assertEquals("some-title-24-{$thread['id']}", $thread['slug']);
     }
     
@@ -112,7 +132,9 @@ class CreateThreadsTest extends TestCase
 
         $thread = make('App\Thread', $overrides);
         
-        return $this->post(route('threads'), $thread->toArray());
+        return $this->post(route('threads'), $thread->toArray() + [
+            'g-recaptcha-response' => 'token'
+        ]);
     }
 
     /** @test */
@@ -144,6 +166,56 @@ class CreateThreadsTest extends TestCase
         $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
 
         $this->assertEquals(0, Activity::count()); //this way we can simplify it by having NOTHING at the activity db
+    }
+
+    /** @test */
+    function a_thread_requires_a_title_and_body_to_be_updated()
+    {
+        $this->withExceptionHandling();
+
+        $this->signIn();
+
+        $thread = create('App\Thread', ['user_id' => auth()->id()]);
+
+        $this->patch($thread->path(), [
+            'title' => 'Changed'
+        ])->assertSessionHasErrors('body');
+
+        $this->patch($thread->path(), [
+            'body' => 'Changed'
+        ])->assertSessionHasErrors('title');
+    }
+    
+
+    /** @test */
+    function unauth_users_may_not_update_threads()
+    {
+        $this->withExceptionHandling();
+        $this->signIn();
+
+        $thread = create('App\Thread', ['user_id' => create('App\User')->id]);
+
+        $this->patch($thread->path(), [
+            'title' => 'Changed',
+            'body' => 'Changed body'
+        ])->assertStatus(403);
+        
+    }
+
+
+    /** @test */
+    function a_thread_can_be_updated_by_creator()
+    {
+        $this->signIn();
+
+        $thread = create('App\Thread', ['user_id' => auth()->id()]);
+
+        $this->patch($thread->path(), [
+            'title' => 'Changed',
+            'body' => 'Changed body'
+        ]);
+        $this->assertEquals('Changed', $thread->fresh()->title);
+        $this->assertEquals('Changed body', $thread->fresh()->body);
     }
     
 }

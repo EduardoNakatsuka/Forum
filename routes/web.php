@@ -21,6 +21,7 @@ Route::get('/home', 'HomeController@index');
 Route::get('threads', 'ThreadsController@index')->name('threads');
 Route::get('threads/create', 'ThreadsController@create');
 Route::get('threads/{channel}/{thread}', 'ThreadsController@show'); //this one is to show the thread
+Route::patch('threads/{channel}/{thread}', 'ThreadsController@update'); //update threads
 
 
 

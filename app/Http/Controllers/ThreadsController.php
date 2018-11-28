@@ -7,7 +7,7 @@ use App\Channel;
 use App\Thread;
 use Illuminate\Http\Request;
 use App\Trending;
-use Zttp\Zttp;
+use App\Rules\Recaptcha;
 
 class ThreadsController extends Controller
 {
@@ -53,23 +53,15 @@ class ThreadsController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Recaptcha $recaptcha)
     {
         $this->validate($request, [
             'title' => 'required|spamFree',
             'body' => 'required|spamFree',
-            'channel_id' => 'required|exists:channels,id'
+            'channel_id' => 'required|exists:channels,id',
+            'g-recaptcha-response' => ['required', $recaptcha]
         ]);
 
-        $response = Zttp::asFormParams()->post('https://www.google.com/recaptcha/api/siteverify', [
-            'secret' => config('services.recaptcha.secret'),
-            'response' => $request->input('g-recaptcha-response'),
-            'remoteip' => $_SERVER['REMOTE_ADDR']
-        ]);
-
-        if (! $response->json()['success']) {
-            throw new \Exception('Recaptcha Failed');
-        }
 
         $thread = Thread::create([
             'user_id' => auth()->id(),
@@ -123,17 +115,24 @@ class ThreadsController extends Controller
         //
     }
 
-    // /**
-    //  * Update the specified resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @param  \App\Thread  $thread
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function update($channel, Thread $thread)
-    // {
-
-    // }
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Thread  $thread
+     * @return \Illuminate\Http\Response
+     */
+    public function update($channel, Thread $thread)
+    {
+        $this->authorize('update', $thread);
+        
+        $thread->update(request()->validate([
+            'title' => 'required|spamFree',
+            'body' => 'required|spamFree',
+        ]));
+        
+        return $thread;
+    }
 
     /**
      * Remove the specified resource from storage.
